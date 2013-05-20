@@ -1,0 +1,131 @@
+#include "stdafx.h"
+
+#include <mmsystem.h>
+#include "\Archivos de programa\Microsoft DirectX SDK (April 2006)\include\d3dx9.h"
+#pragma warning( disable : 4996 ) // disable deprecated warning 
+#include "\msdev\games\clases\vectores.h"
+#include "tile.h"
+
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+CTile::CTile()
+{
+	memset(C,0,sizeof(C));
+	cant_fil = cant_col = 0;
+}
+
+void CTile::Create(DXEngine2d *m,int sdx,int sdy)
+{
+	motor = m;
+	// Cargo la textura de Atlas
+	atlas = motor->cargar_textura("atlas.bmp");
+	motor->DXLoadTextures();
+	sprite_dx = sdx;
+	sprite_dy = sdy;
+
+	D3DSURFACE_DESC desc;
+	motor->g_pTexture[atlas]->GetLevelDesc(0,&desc);
+	cant_col = desc.Width/sprite_dx;
+	cant_fil = desc.Height/sprite_dy;
+
+	// inicializo con todo el atlas 
+	for(int i=0;i<cant_fil;++i)
+		for(int j=0;j<cant_col;++j)
+		{
+			C[i][j].flags = 0;
+			C[i][j].fil = i;
+			C[i][j].col = j;
+		}
+}
+
+
+CTile::~CTile()
+{
+}
+
+
+
+HRESULT CTile::Render()
+{
+	// Quad para postprocess 2d
+	LPDIRECT3DVERTEXBUFFER9 g_pQuad;		// Buffer para el quad de pantalla
+	int cant_f = 10;
+	int cant_c = 10;
+
+    QUADVERTEX vertices[10*10*2*3];
+    // Leer esto en el manual del directX : "Directly Mapping Texels to Pixels"
+    float desf = 0.5f;
+	float du = 1 / (float)cant_col;
+	float dv = 1 / (float)cant_fil;
+	float ex = 1;
+	float ey = 1;
+
+	int t = 0;
+	for(int i=0;i<cant_f;++i)
+	{
+		for(int j=0;j<cant_c;++j)
+		{
+
+			float u = (float)C[i][j].col / (float)cant_col;
+			float v = (float)C[i][j].fil / (float)cant_fil;
+
+			vertices[t].pos = D3DXVECTOR4(ex*j*sprite_dx-desf, ey*i*sprite_dy-desf, 0.0f, 1.0f);
+			vertices[t].tu = u;
+			vertices[t].tv = v;
+			++t;
+
+			vertices[t].pos = D3DXVECTOR4(ex*(j+1)*sprite_dx-desf, ey*i*sprite_dy-desf, 0.0f, 1.0f);
+			vertices[t].tu = u+du;
+			vertices[t].tv = v;
+			++t;
+
+			vertices[t].pos = D3DXVECTOR4(ex*(j+1)*sprite_dx-desf, ey*(i+1)*sprite_dy-desf, 0.0f, 1.0f);
+			vertices[t].tu = u+du;
+			vertices[t].tv = v+dv;
+			++t;
+
+			
+			vertices[t] = vertices[t-3];
+			vertices[t+1] = vertices[t-1];
+			vertices[t+2].pos = D3DXVECTOR4(ex*j*sprite_dx-desf, ey*(i+1)*sprite_dy-desf, 0.0f, 1.0f);
+			vertices[t+2].tu = u;
+			vertices[t+2].tv = v+dv;
+			t+=3;
+		}
+	}
+
+
+    if( FAILED( motor->g_pd3dDevice->CreateVertexBuffer( t*sizeof(QUADVERTEX),
+                                                  0, D3DFVF_QUADVERTEX,
+                                                  D3DPOOL_DEFAULT, &g_pQuad, NULL ) ) )
+    {
+        return E_FAIL;
+    }
+
+    VOID* pQuad;
+    if( FAILED( g_pQuad->Lock( 0, sizeof(vertices), (void**)&pQuad, 0 ) ) )
+        return E_FAIL;
+    memcpy( pQuad, vertices, sizeof(vertices) );
+    g_pQuad->Unlock();
+
+
+	motor->g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,0,0), 1, 0 );
+	if( SUCCEEDED( motor->g_pd3dDevice->BeginScene()))
+	{
+
+		motor->g_pd3dDevice->SetStreamSource( 0, g_pQuad, 0, sizeof(QUADVERTEX));
+		motor->g_pd3dDevice->SetFVF( D3DFVF_QUADVERTEX);
+		motor->g_pd3dDevice->SetTexture( 0, motor->g_pTexture[atlas]);
+        
+		motor->g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 2*cant_f*cant_c );
+
+		motor->g_pd3dDevice->EndScene();
+	}
+
+	motor->g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+
+	SAFE_RELEASE(g_pQuad);
+	return S_OK;
+
+}

@@ -1,0 +1,41 @@
+Para el que este interesado en profundizar:
+
+* Digital Signal Processing
+http://www.dspguide.com/ch24/3.htm
+
+* Gaussian Blur:
+http://reference.wolfram.com/mathematica/ref/GaussianFilter.html
+
+* Sistema de Particulas:
+http://en.wikipedia.org/wiki/Particle_system
+
+* Curvas y Superficies paramétricas
+
+http://www.math.uri.edu/~bkaskosz/flashmo/parcur/
+applet que permite ingresar la ecuacion y graficar la curva en tiempo real
+
+Tiene varios ejemplos de ecuaciones parametricas para superficies:
+http://www.vtk.org/VTK/img/ParametricSurfaces.pdf
+
+
+* Sintesis musical
+http://avelino.atlantes.org/soft/sintesis_musical_ordenador/tutorial_1/
+http://en.wikipedia.org/wiki/Additive_synthesis
+
+* Descripcion del formato .WAV
+http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
+
+* DirectX
+UVAtlas:
+http://msdn.microsoft.com/en-us/library/bb206321(v=vs.85).aspx
+
+Directly Mapping Texels to Pixels
+http://msdn.microsoft.com/en-us/library/bb219690(v=vs.85).aspx
+
+
+* Varios
+http://en.wikipedia.org/wiki/Fourier_series
+http://en.wikipedia.org/wiki/Normal_distribution
+
+* Mi blog sobre Graficos:
+http://poke53265.blogspot.com/
