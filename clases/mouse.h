@@ -3,8 +3,8 @@
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <mmsystem.h>
-#include "\Archivos de programa\Microsoft DirectX SDK (April 2006)\include\d3dx9.h"
-#include "\Archivos de programa\Microsoft DirectX SDK (April 2006)\include\dinput.h"
+#include "\Program Files (x86)\Microsoft DirectX SDK (April 2006)\include\d3dx9.h"
+#include "\Program Files (x86)\Microsoft DirectX SDK (April 2006)\include\dinput.h"
 #pragma warning( disable : 4996 ) // disable deprecated warning 
 
 class CDirectInputMouse

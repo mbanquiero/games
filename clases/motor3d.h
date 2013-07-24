@@ -2,7 +2,7 @@
 #pragma once
 
 #include <mmsystem.h>
-#include "\Archivos de programa\Microsoft DirectX SDK (April 2006)\include\d3dx9.h"
+#include "\Program Files (x86)\Microsoft DirectX SDK (April 2006)\include\d3dx9.h"
 #pragma warning( disable : 4996 ) // disable deprecated warning 
 #include "\msdev\games\clases\vectores.h"
 

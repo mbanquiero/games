@@ -947,6 +947,8 @@ void DXGui::Render(BOOL resplandor)
 	offset.y = oy;
 
 	D3DXMatrixTransformation2D(&mat,NULL,0.0,&escale,NULL,NULL,&offset);
+	mat._12 *= 5;
+	mat._14 *= 5;
 	model->pSprite->SetTransform(&mat);
 
 	for(int i=item_0;i<cant_items;++i)

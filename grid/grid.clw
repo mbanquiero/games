@@ -15,9 +15,9 @@ Class4=CAboutDlg
 
 ResourceCount=9
 Resource1=IDD_ABOUTBOX
-Resource2=IDR_MAINFRAME (Spanish (Modern))
+Resource2=IDD_ABOUTBOX (Spanish (Modern))
 Class2=CChildView
-Resource8=IDD_ABOUTBOX (Spanish (Modern))
+Resource8=IDR_MAINFRAME (Spanish (Modern))
 Resource9=IDR_MAINFRAME
 
 [CLS:CGridApp]
